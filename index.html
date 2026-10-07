@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IDS Requirement Builder</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="zip.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-icon">I<span>D</span></span><div><strong>IDS Builder</strong><small>Information requirements</small></div></div>
+      <button id="jump-setup" class="side-setup" type="button">⌂ <span>Project and model setup</span></button>
+      <div class="sidebar-section">
+        <div class="side-heading"><span>IDS files</span><span id="file-count">0</span></div>
+        <input id="spec-search" class="side-search" type="search" placeholder="Search files or IFC entities" aria-label="Search files and specifications">
+        <nav id="file-list" class="file-list" aria-label="IDS files and specifications"></nav>
+        <button id="add-spec" class="side-add" type="button">＋ Add specification</button>
+        <button id="extract-selected" class="side-add extract-add" type="button" disabled>Extract selected <span id="extract-count">0</span></button>
+        <button id="clear-all" class="side-add clear-all" type="button" disabled>Clear all IDS files</button>
+      </div>
+      <div class="side-foot">IDS 1.0 · IFC4 and other declared IFC versions<br>Files stay in your browser until you download them.</div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div class="breadcrumb">Workspace <span>/</span> <strong>Requirement builder</strong></div>
+        <div class="toolbar">
+          <a class="button ghost" href="guide.html">How to use</a>
+          <button id="new-file" class="button ghost" type="button">New IDS</button>
+          <button id="import-file" class="button ghost" type="button">Import IDS files</button>
+          <button id="preview-file" class="button ghost" type="button">Preview XML</button>
+          <button id="export-all" class="button ghost" type="button">Download all ZIP</button>
+          <button id="export-file" class="button primary" type="button">Download current IDS</button>
+        </div>
+      </header>
+
+      <div class="page-head">
+        <div><div class="eyebrow">AUTHORING WORKSPACE</div><h1>Information requirements</h1><p>Define what an IFC model must contain, then export a buildingSMART IDS file.</p></div>
+        <div class="file-badge"><span class="dot"></span><span id="file-state">New document</span></div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><span id="metric-specs">0</span><small>Specifications</small></div>
+        <div class="metric"><span id="metric-rules">0</span><small>Requirements</small></div>
+        <div class="metric"><span id="metric-classes">0</span><small>IFC entities</small></div>
+        <div class="metric"><span id="metric-checks">—</span><small>Builder checks</small></div>
+      </div>
+
+      <div class="active-file-bar" id="active-file-bar"></div>
+
+      <section class="card document-card">
+        <div class="card-header"><div><h2>Document details</h2><p>These fields describe the information delivery.</p></div><span class="section-index">01</span></div>
+        <div class="field-grid" id="info-form">
+          <label class="field span-2">Title <input data-info="title" placeholder="e.g. Architecture Handover"></label>
+          <label class="field">Version <input data-info="version" placeholder="1.0"></label>
+          <label class="field span-3">Description <textarea data-info="description" rows="2" placeholder="Purpose and scope of this IDS"></textarea></label>
+          <label class="field">Purpose <input data-info="purpose" list="purpose-options" placeholder="Handover"></label>
+          <label class="field">Milestone <input data-info="milestone" list="milestone-options" placeholder="Stage 8"></label>
+          <label class="field">Date <input data-info="date" type="date"></label>
+          <label class="field">Author email <input data-info="author" type="email" placeholder="name@example.com"></label>
+          <label class="field span-2">Copyright <input data-info="copyright" placeholder="Optional"></label>
+        </div>
+      </section>
+
+      <section class="card setup-card" id="setup-card">
+        <div class="card-header"><div><h2>Project and model setup</h2><p>Review setup information and add the checks IDS can express.</p></div><span class="section-index">02</span></div>
+        <div id="setup-content"></div>
+      </section>
+
+      <section class="card specification-card">
+        <div class="card-header"><div><div class="eyebrow">SELECTED SPECIFICATION</div><h2 id="selected-heading">Select a specification</h2><p id="selected-subtitle">Choose one on the left or add a new one.</p></div><span class="section-index">03</span></div>
+        <div id="spec-editor" class="spec-editor empty-state">Create a new IDS file or import any IDS 1.0 file.</div>
+      </section>
+
+      <section class="card requirements-card">
+        <div class="card-header"><div><h2>Requirements <span id="selected-rule-count" class="count-chip">0</span></h2><p id="requirements-scope">Select a specification to see which IFC objects these requirements apply to.</p></div><span class="section-index">04</span></div>
+        <div id="requirements-content" class="empty-state">Select a specification to review its requirements.</div>
+      </section>
+
+      <section class="card checks-card">
+        <div class="card-header"><div><h2>Builder checks</h2><p>Structural checks before export. Validate the downloaded file with an IDS validator for full schema and IFC checks.</p></div><button id="run-checks" class="button ghost small" type="button">Run checks</button></div>
+        <div id="check-results" class="check-results">Checks have not run yet.</div>
+      </section>
+    </main>
+  </div>
+
+  <input id="file-input" type="file" accept=".ids,.xml,text/xml,application/xml" multiple hidden>
+  <datalist id="entity-options"></datalist>
+  <datalist id="attribute-options"></datalist>
+  <datalist id="pset-options"></datalist>
+  <datalist id="property-options"></datalist>
+  <datalist id="datatype-options"></datalist>
+  <datalist id="predefined-options"><option value="USERDEFINED"></option><option value="NOTDEFINED"></option></datalist>
+  <datalist id="classification-options"></datalist>
+  <datalist id="max-occurs-options"><option value="unbounded"></option><option value="1"></option><option value="0"></option></datalist>
+  <datalist id="purpose-options"><option value="Stage 8 handover"></option><option value="Design coordination"></option><option value="Construction"></option><option value="Operations and maintenance"></option></datalist>
+  <datalist id="milestone-options"><option value="Stage 4 / Concept"></option><option value="Stage 5 / Preliminary design"></option><option value="Stage 6 / Detailed design"></option><option value="Stage 7 / Production"></option><option value="Stage 8 / Handover"></option></datalist>
+  <dialog id="facet-dialog" class="facet-dialog">
+    <form id="facet-form" novalidate>
+      <div class="dialog-head"><div><div class="eyebrow">IDS FACET</div><h2 id="dialog-title">Add requirement</h2></div><button id="close-dialog" class="icon-button" type="button" aria-label="Close">×</button></div>
+      <div class="dialog-body" id="dialog-fields"></div>
+      <div class="dialog-foot"><button id="cancel-dialog" class="button ghost" type="button">Cancel</button><button class="button primary" type="submit">Save requirement</button></div>
+    </form>
+  </dialog>
+  <dialog id="xml-dialog" class="xml-dialog">
+    <div class="dialog-head"><div><div class="eyebrow">CURRENT IDS FILE</div><h2>IDS XML preview</h2></div><button id="close-xml" class="icon-button" type="button" aria-label="Close XML preview">×</button></div>
+    <p>Review the XML generated for the current file. Download the IDS to save it.</p>
+    <textarea id="xml-preview" readonly spellcheck="false" aria-label="IDS XML preview"></textarea>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
+
