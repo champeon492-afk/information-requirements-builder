@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IDS Requirement Builder</title>
+  <title>IDS Builder</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="ids-theme.css">
   <script src="zip.js" defer></script>
   <script src="app.js" defer></script>
 </head>
-<body>
+<body class="builder-page">
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand"><span class="brand-icon">I<span>D</span></span><div><strong>IDS Builder</strong><small>Information requirements</small></div></div>
@@ -25,8 +26,9 @@
     </aside>
 
     <main class="workspace">
+      <div class="hero-surface">
       <header class="topbar">
-        <div class="breadcrumb">Workspace <span>/</span> <strong>Requirement builder</strong></div>
+        <div class="breadcrumb">IDS Builder <span>/</span> <strong>Workspace</strong></div>
         <div class="toolbar">
           <a class="button ghost" href="guide.html">How to use</a>
           <button id="new-file" class="button ghost" type="button">New IDS</button>
@@ -38,7 +40,7 @@
       </header>
 
       <div class="page-head">
-        <div><div class="eyebrow">AUTHORING WORKSPACE</div><h1>Information requirements</h1><p>Define what an IFC model must contain, then export a buildingSMART IDS file.</p></div>
+        <div><div class="eyebrow">INFORMATION DELIVERY SPECIFICATION</div><h1>IDS Builder</h1><p>Define what an IFC model must contain, then export a buildingSMART IDS file.</p></div>
         <div class="file-badge"><span class="dot"></span><span id="file-state">New document</span></div>
       </div>
 
@@ -47,6 +49,7 @@
         <div class="metric"><span id="metric-rules">0</span><small>Requirements</small></div>
         <div class="metric"><span id="metric-classes">0</span><small>IFC entities</small></div>
         <div class="metric"><span id="metric-checks">—</span><small>Builder checks</small></div>
+      </div>
       </div>
 
       <div class="active-file-bar" id="active-file-bar"></div>
