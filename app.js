@@ -36,7 +36,7 @@
   const $ = (selector) => document.querySelector(selector);
   const esc = (value) => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
   let xml, selected = 0, editIndex = null, fileName = "requirements.ids", dirty = false, checkState = null, toastTimer;
-  let files = [], active = -1, sequence = 0;
+  let files = [], active = -1, sequence = 0, selectionMode = false;
   const picked = new Set();
 
   function children(parent, name) { return [...(parent?.children || [])].filter(n => n.namespaceURI === IDS && (!name || n.localName === name)); }
@@ -128,13 +128,15 @@
   }
 
   function updateHeader() {
-    const list = specs(), ruleCount = list.reduce((sum, s) => sum + requirements(s).length, 0);
-    $("#metric-specs").textContent = list.length;
-    $("#metric-rules").textContent = ruleCount;
-    $("#metric-classes").textContent = new Set(list.map(s => simpleText(child(s,"applicability")?.firstElementChild,"name")).filter(Boolean)).size;
     $("#file-count").textContent = files.length;
-    $("#file-state").textContent = activeFile() ? `${fileName}${dirty ? " · Unsaved" : ""}` : "No IDS file open";
-    $("#metric-checks").textContent = checkState === null ? "—" : checkState.errors ? `${checkState.errors} issue${checkState.errors === 1 ? "" : "s"}` : "Passed";
+    const count=specs().length;
+    if ($("#file-spec-count")) $("#file-spec-count").textContent = `${count} specification${count===1?"":"s"}`;
+    const ruleCount=specs().reduce((sum,s)=>sum+requirements(s).length,0);
+    if ($("#file-rule-count")) $("#file-rule-count").textContent = `${ruleCount} requirement${ruleCount===1?"":"s"}`;
+    const checkButton = $("#file-check-state");
+    if (checkButton) checkButton.textContent = checkState === null ? "Check before download" : checkState.errors ? `${checkState.errors} issue${checkState.errors === 1 ? "" : "s"}` : checkState.warnings ? `${checkState.warnings} review note${checkState.warnings === 1 ? "" : "s"}` : "Checks passed";
+    const saveState = $("#file-save-state");
+    if (saveState) saveState.textContent = dirty ? "Unsaved edits" : "Ready";
     $("#extract-count").textContent = picked.size;
     $("#extract-selected").disabled = picked.size===0;
     $("#clear-all").disabled = files.length===0;
@@ -145,6 +147,7 @@
     $("#export-all").disabled = files.length===0;
     $("#run-checks").disabled = files.length===0;
     $("#jump-setup").disabled = files.length===0;
+    $("#selection-mode").disabled = files.length===0;
   }
 
   function renderInfo() {
@@ -194,7 +197,8 @@
     if (!f) { $("#active-file-bar").innerHTML=""; return; }
     $("#active-file-bar").style.setProperty("--file-color",f.color);
     const currentColor=COLORS.find(c=>c.hex.toLowerCase()===f.color.toLowerCase())?.name || "Custom";
-    $("#active-file-bar").innerHTML=`<span class="file-swatch-large"></span><label for="file-name-input">Current IDS</label><input id="file-name-input" value="${esc(f.name)}" aria-label="Current IDS file name"><details class="color-picker"><summary aria-label="Choose IDS file color"><span class="color-preview" style="background:${f.color}"></span>Color: ${currentColor}</summary><div class="color-menu"><div class="color-menu-title">Choose a file color</div><div class="color-grid">${COLORS.map(c=>`<button type="button" class="color-tile ${f.color.toLowerCase()===c.hex.toLowerCase()?"selected":""}" data-file-color="${c.hex}" title="${c.name}" aria-label="${c.name}" aria-pressed="${f.color.toLowerCase()===c.hex.toLowerCase()}"><span style="background:${c.hex}"></span></button>`).join("")}</div><label class="custom-color">Custom color <input id="custom-file-color" type="color" value="${f.color}" aria-label="Custom IDS file color"></label></div></details><small>${specs().length} specifications</small><button id="close-file" class="button ghost small" type="button">Close</button>`;
+    const ruleCount=specs().reduce((sum,s)=>sum+requirements(s).length,0);
+    $("#active-file-bar").innerHTML=`<span class="file-swatch-large"></span><div class="current-file"><label for="file-name-input">Current IDS</label><input id="file-name-input" value="${esc(f.name)}" aria-label="Current IDS file name"></div><div class="file-bar-summary"><span id="file-spec-count">${specs().length} specifications</span><span id="file-rule-count">${ruleCount} requirements</span><span id="file-save-state">${dirty?"Unsaved edits":"Ready"}</span></div><details class="color-picker"><summary aria-label="Choose IDS file color"><span class="color-preview" style="background:${f.color}"></span>Color: ${currentColor}</summary><div class="color-menu"><div class="color-menu-title">Choose a file color</div><div class="color-grid">${COLORS.map(c=>`<button type="button" class="color-tile ${f.color.toLowerCase()===c.hex.toLowerCase()?"selected":""}" data-file-color="${c.hex}" title="${c.name}" aria-label="${c.name}" aria-pressed="${f.color.toLowerCase()===c.hex.toLowerCase()}"><span style="background:${c.hex}"></span></button>`).join("")}</div><label class="custom-color">Custom color <input id="custom-file-color" type="color" value="${f.color}" aria-label="Custom IDS file color"></label></div></details><button id="file-check-state" class="file-check-state" type="button">${checkState===null?"Check before download":checkState.errors?`${checkState.errors} issues`:checkState.warnings?`${checkState.warnings} review notes`:"Checks passed"}</button>`;
   }
 
   function setFileColor(color) {
@@ -323,7 +327,8 @@
 
   function render() { updateHeader(); collectOptions(); renderActiveFileBar(); renderInfo(); renderSidebar(); renderSetup(); renderSpec(); renderRequirements(); renderChecks(); }
   function renderChecks() {
-    if (!checkState) { $("#check-results").textContent = "Checks have not run yet."; return; }
+    $("#go-to-issue").hidden = !checkState?.errors;
+    if (!checkState) { $("#check-results").textContent = "Checks run when you download this IDS."; return; }
     const {errors,warnings,messages} = checkState;
     $("#check-results").innerHTML = `<div class="${errors ? "check-error" : warnings ? "check-warn" : "check-good"}">${errors ? `${errors} issue${errors===1?"":"s"} to fix` : warnings ? `No blocking issues · ${warnings} review note${warnings===1?"":"s"}` : "All builder checks passed"}</div><ul>${messages.map(m=>`<li>${esc(m)}</li>`).join("")}</ul>`;
   }
@@ -532,6 +537,19 @@
   }
   function runChecks() { if (!activeFile()) return null; checkState=validateDoc(xml); activeFile().checkState=checkState; renderChecks(); updateHeader(); return checkState; }
 
+  function goToFirstIssue() {
+    if (!checkState?.errors) return;
+    const issue=checkState.messages[0] || "";
+    $("#checks-dialog").close();
+    if (issue.startsWith("Document title")) { $(".file-details").open=true; $("[data-info='title']").focus(); return; }
+    if (issue.startsWith("Add at least one specification")) { $("#add-spec").focus(); return; }
+    const match=specs().findIndex((spec,index)=>issue.startsWith(`${spec.getAttribute("identifier")||`Specification ${index+1}`}:`));
+    if (match>=0 && match!==selected) activate(active,match);
+    $(".specification-card").scrollIntoView({behavior:"smooth",block:"start"});
+    const target=issue.includes("IFC entity") ? "[data-spec='entity']" : issue.includes("occurrence") ? "[data-spec='minOccurs']" : issue.includes("IFC version") ? "[data-spec='ifcVersion']" : issue.includes("identifier") ? "[data-spec='identifier']" : "#add-rule";
+    $(target)?.focus();
+  }
+
   function serializeDoc(doc) { return `<?xml version="1.0" encoding="UTF-8"?>\n${new XMLSerializer().serializeToString(doc)}\n`; }
   function triggerDownload(blob,name) {
     const url=URL.createObjectURL(blob);
@@ -540,14 +558,14 @@
   }
   function download() {
     if (!activeFile()) return;
-    const result=runChecks(); if (result.errors) { toast("Fix builder issues before downloading."); return; }
+    const result=runChecks(); if (result.errors) { $("#checks-dialog").showModal(); return; }
     triggerDownload(new Blob([serializeDoc(xml)],{type:"application/xml;charset=utf-8"}),fileName);
     dirty=false; activeFile().dirty=false; updateHeader(); renderSidebar(); toast(`${fileName} downloaded`);
   }
   function downloadAll() {
     if (!files.length) return;
     const bad=files.find(f=>validateDoc(f.doc).errors);
-    if (bad) { activate(files.indexOf(bad)); runChecks(); toast(`Fix ${bad.name} before downloading all files.`); return; }
+    if (bad) { activate(files.indexOf(bad)); runChecks(); $("#checks-dialog").showModal(); return; }
     const entries=files.map(f=>({name:f.name,content:serializeDoc(f.doc)}));
     triggerDownload(window.idsBuilderZip(entries),"IDS_workspace.zip");
     for (const f of files) f.dirty=false; dirty=false; updateHeader(); renderSidebar(); toast(`${entries.length} IDS files packaged in ZIP`);
@@ -555,7 +573,12 @@
 
   function toast(message) { const t=$("#toast"); t.textContent=message; t.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),4200); }
   $("#new-file").addEventListener("click",()=>{ emptyDoc(); toast("New IDS added to workspace"); });
-  $("#jump-setup").addEventListener("click",()=>$("#setup-card").scrollIntoView({behavior:"smooth",block:"start"}));
+  $("#jump-setup").addEventListener("click",()=>$("#setup-dialog").showModal());
+  $("#close-setup").addEventListener("click",()=>$("#setup-dialog").close());
+  $("#close-checks").addEventListener("click",()=>$("#checks-dialog").close());
+  $("#checks-done").addEventListener("click",()=>$("#checks-dialog").close());
+  $("#go-to-issue").addEventListener("click",goToFirstIssue);
+  $("#selection-mode").addEventListener("click",()=>{ selectionMode=!selectionMode; document.body.classList.toggle("selection-mode",selectionMode); $("#selection-mode").setAttribute("aria-pressed",String(selectionMode)); $("#selection-mode").textContent=selectionMode?"Done selecting":"Select specifications for extraction"; if (!selectionMode) { picked.clear(); updateHeader(); } });
   $("#import-file").addEventListener("click",()=>$("#file-input").click());
   $("#file-input").addEventListener("change",async e=>{ const incoming=[...e.target.files]; for (const file of incoming) try { loadXml(await file.text(),file.name); } catch(error) { toast(`${file.name}: ${error.message}`); } e.target.value=""; });
   $("#export-file").addEventListener("click",download);
@@ -594,7 +617,7 @@
   $("#active-file-bar").addEventListener("click",e=>{
     const color=e.target.closest("[data-file-color]");
     if (color) { setFileColor(color.dataset.fileColor); return; }
-    if (e.target.id==="close-file") removeFile(active);
+    if (e.target.id==="file-check-state") { runChecks(); $("#checks-dialog").showModal(); }
   });
   $("#setup-content").addEventListener("click",e=>{ const id=e.target.dataset.setup; if (!id) return; const item=SETUP_ITEMS.find(x=>x.id===id); if (item) addSetupCheck(item); });
   $("#info-form").addEventListener("input",e=>{ const key=e.target.dataset.info; if (key) setInfo(key,e.target.value); });
@@ -618,4 +641,3 @@
   $("#run-checks").addEventListener("click",()=>runChecks());
   emptyDoc();
 })();
-

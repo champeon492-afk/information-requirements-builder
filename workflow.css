@@ -1,0 +1,61 @@
+/* Approved compact IDS editing workflow. The builder's existing theme remains the base. */
+.builder-page .workspace{padding-top:16px}
+.builder-page .topbar{min-height:50px;border-bottom:0;margin-bottom:14px}
+.builder-page .breadcrumb{font-size:14px;font-weight:800}
+.builder-page .toolbar{align-items:center}
+.builder-page .toolbar .button{background:transparent;border-color:var(--ids-line)}
+.builder-page .toolbar .button.primary{background:var(--ids-lime);border-color:var(--ids-lime);color:var(--ids-ink)}
+.builder-page .side-heading{align-items:center}
+.builder-page .side-heading span:last-child{color:var(--ids-muted);margin-left:5px}
+.builder-page .side-heading button{border:1px solid var(--ids-line);background:var(--ids-raised);color:var(--ids-lime);border-radius:50%;width:30px;height:30px;font-size:20px;line-height:1}
+.builder-page #selection-mode{border:0;text-align:left;margin:12px 6px 0;padding:7px 0;background:transparent;color:var(--ids-secondary)}
+.builder-page #selection-mode[aria-pressed="true"]{color:var(--ids-lime)}
+.builder-page #extract-selected{display:none}
+.builder-page.selection-mode #extract-selected{display:block}
+.builder-page .spec-pick{display:none}
+.builder-page.selection-mode .spec-pick{display:block}
+.builder-page .side-foot{margin-top:10px}
+.builder-page .active-file-bar{margin:0 0 16px;min-height:73px;flex-wrap:wrap;gap:10px 14px}
+.builder-page .current-file{min-width:200px;flex:1}
+.builder-page .current-file label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+.builder-page .current-file input{width:100%;min-width:0;padding:2px 0 0;margin:0;font-size:18px;font-weight:850;letter-spacing:-.03em;text-overflow:ellipsis}
+.builder-page .file-bar-summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--ids-secondary);font-size:12px}
+.builder-page .file-bar-summary span+span::before{content:"";display:inline-block;width:1px;height:13px;background:var(--ids-line);margin-right:10px;vertical-align:-2px}
+.builder-page .file-check-state{background:#ffd39219;color:#ffd392;border:1px solid #ffd39277;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800}
+.builder-page .file-check-state:hover{background:#ffd3922d}
+.builder-page .specification-card{margin-bottom:15px}
+.builder-page .specification-card>.card-header{border-bottom:0;padding-bottom:5px}
+.builder-page .specification-card h1{font-size:30px;line-height:1.1;letter-spacing:-.04em;color:var(--ids-text);margin:5px 0}
+.builder-page .spec-editor{padding-top:14px}
+.builder-page .requirements-section{border-top:1px solid var(--ids-line)}
+.builder-page .requirements-section .card-header{border-bottom:0;padding-bottom:0}
+.builder-page .requirements-tools{padding-top:14px}
+.builder-page .table-scroll{max-height:none}
+.builder-page .file-details{background:var(--ids-card);border:1px solid var(--ids-line);border-radius:15px;margin-bottom:18px}
+.builder-page .file-details summary{cursor:pointer;list-style:none;padding:16px 18px;font-size:14px;font-weight:800}
+.builder-page .file-details summary::-webkit-details-marker{display:none}
+.builder-page .file-details summary span{color:var(--ids-muted);font-size:12px;font-weight:500;margin-left:10px}
+.builder-page .file-details summary::after{content:"▾";float:right;color:var(--ids-muted)}
+.builder-page .file-details[open] summary{border-bottom:1px solid var(--ids-line)}
+.builder-page .file-details[open] summary::after{content:"▴"}
+.builder-page .more-menu{position:relative}
+.builder-page .more-menu summary{list-style:none;cursor:pointer}
+.builder-page .more-menu summary::-webkit-details-marker{display:none}
+.builder-page .more-menu summary::after{content:" ▾"}
+.builder-page .more-options{position:absolute;right:0;top:calc(100% + 6px);width:190px;z-index:12;background:var(--ids-raised);border:1px solid var(--ids-line);border-radius:12px;padding:6px;box-shadow:0 18px 40px #0008}
+.builder-page .more-options button{width:100%;display:block;border:0;border-radius:7px;background:transparent;color:var(--ids-text);padding:10px;text-align:left;font-size:13px}
+.builder-page .more-options button:hover{background:#ffffff15}
+.builder-page .more-options button:last-child{color:#ffb9b8}
+.builder-page .more-options button:disabled{opacity:.45}
+.builder-page .setup-dialog{position:fixed;top:0;right:0;left:auto;bottom:0;width:min(620px,100vw);height:100vh;max-width:none;max-height:none;margin:0;padding:0;border:0;border-left:1px solid var(--ids-line);background:var(--ids-card);color:var(--ids-text);box-shadow:-24px 0 60px #0008;overflow:auto}
+.builder-page .setup-dialog::backdrop,.builder-page .checks-dialog::backdrop{background:#000a}
+.builder-page .drawer-head{position:sticky;top:0;z-index:2;background:var(--ids-card);display:flex;justify-content:space-between;align-items:flex-start;gap:15px;padding:22px;border-bottom:1px solid var(--ids-line)}
+.builder-page .drawer-head h2{font-size:24px;margin:5px 0 8px}
+.builder-page .drawer-head p{color:var(--ids-secondary);font-size:13px;margin:0;line-height:1.45}
+.builder-page .setup-grid{grid-template-columns:1fr}
+.builder-page .checks-dialog{width:min(540px,calc(100vw - 28px));max-height:calc(100vh - 28px);padding:0;border:1px solid var(--ids-line);border-radius:18px;background:var(--ids-card);color:var(--ids-text);box-shadow:0 24px 70px #0008}
+.builder-page .checks-dialog .dialog-head h2{font-size:22px}
+.builder-page .checks-dialog .check-results{font-size:14px;line-height:1.5;max-height:60vh;overflow:auto}
+.builder-page .checks-dialog .dialog-foot{justify-content:space-between}
+@media(max-width:1050px){.builder-page .topbar{align-items:flex-start}.builder-page .toolbar{justify-content:flex-start}}
+@media(max-width:720px){.builder-page .workspace{padding-top:12px}.builder-page .topbar{display:block}.builder-page .toolbar{margin-top:12px}.builder-page .active-file-bar{align-items:flex-start}.builder-page .file-bar-summary{width:100%}.builder-page .specification-card h1{font-size:25px}.builder-page .file-details summary span{display:block;margin:4px 0 0}.builder-page .setup-dialog{width:100vw}.builder-page .file-list{max-height:220px}}
