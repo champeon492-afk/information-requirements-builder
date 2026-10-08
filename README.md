@@ -1,6 +1,8 @@
-# Information Requirements Builder
+# IDS Builder
 
 A local browser application for authoring and editing buildingSMART IDS 1.0 XML. Keep multiple `.ids` files open, group specifications by file, and export individual IDS files or a ZIP of all open files.
+
+The interface uses a sage and dark workspace with lime accents. Its source includes `ids-theme.css` alongside the builder styles.
 
 ## Run locally
 
