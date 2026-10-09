@@ -513,7 +513,8 @@
     let errors=0,warnings=0; const messages=[]; const list=specsFor(doc), identifiers=new Set();
     const info=child(doc.documentElement,"info");
     const reparsed=new DOMParser().parseFromString(serializeDoc(doc),"application/xml");
-    if (reparsed.querySelector("parsererror")) { errors++; messages.push("The exported XML is not well formed."); }
+    const parseError=reparsed.querySelector("parsererror");
+    if (parseError) { errors++; messages.push(`The exported XML is not well formed: ${parseError.textContent.trim().replace(/\s+/g," ").slice(0,180)}`); }
     if (!child(info,"title")?.textContent.trim()) { errors++; messages.push("Document title is missing."); }
     if (!list.length) { errors++; messages.push("Add at least one specification."); }
     for (const [i,s] of list.entries()) {
@@ -550,7 +551,11 @@
     $(target)?.focus();
   }
 
-  function serializeDoc(doc) { return `<?xml version="1.0" encoding="UTF-8"?>\n${new XMLSerializer().serializeToString(doc)}\n`; }
+  function serializeDoc(doc) {
+    const serialized=new XMLSerializer().serializeToString(doc);
+    const body=serialized.replace(/^\uFEFF?\s*<\?xml\b[^?]*\?>\s*/i,"");
+    return `<?xml version="1.0" encoding="UTF-8"?>\n${body}\n`;
+  }
   function triggerDownload(blob,name) {
     const url=URL.createObjectURL(blob);
     const anchor=document.createElement("a"); anchor.href=url; anchor.download=name;
