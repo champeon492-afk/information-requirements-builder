@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">IDS Builder screen map</title>
+  <desc id="desc">An annotated view of the IDS Builder: one, choose an IDS file and IFC object in the left panel; two, set file details and IFC scope; three, add requirements; four, run checks and download the IDS.</desc>
+  <defs>
+    <style>
+      text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#f6f8f5} .muted{fill:#aebbb0} .lime{fill:#c9ff59} .small{font-size:15px} .tiny{font-size:13px} .label{font-size:13px;font-weight:800;letter-spacing:1.5px} .strong{font-weight:800} .call{fill:#0a0c0b;font-size:17px;font-weight:900}
+    </style>
+  </defs>
+  <rect width="1200" height="680" rx="28" fill="#0a0c0b"/>
+  <rect x="18" y="18" width="248" height="644" rx="18" fill="#141914" stroke="#3b433d"/>
+  <circle cx="52" cy="55" r="19" fill="#baff16"/><text x="40" y="61" class="call">ID</text>
+  <text x="82" y="51" font-size="20" font-weight="800">IDS Builder</text><text x="82" y="73" class="tiny muted">Information requirements</text>
+  <line x1="35" y1="95" x2="248" y2="95" stroke="#3b433d"/>
+  <text x="36" y="125" class="label muted">IDS FILES</text><circle cx="231" cy="120" r="15" fill="#283025" stroke="#657265"/><text x="224" y="126" font-size="23" class="lime">+</text>
+  <rect x="35" y="145" width="214" height="38" rx="17" fill="#222724" stroke="#3b433d"/><text x="49" y="169" class="tiny muted">Search files or IFC objects</text>
+  <rect x="34" y="198" width="216" height="43" rx="10" fill="#283229" stroke="#6d8066"/><circle cx="51" cy="220" r="6" fill="#5cc9b7"/><text x="65" y="225" class="tiny strong">Architecture_Handover.ids</text>
+  <line x1="46" y1="251" x2="46" y2="350" stroke="#5cc9b7" stroke-width="2"/>
+  <rect x="55" y="259" width="182" height="37" rx="8" fill="#31402d"/><circle cx="67" cy="277" r="4" fill="#baff16"/><text x="80" y="283" class="small strong">IFCDOOR</text>
+  <text x="80" y="324" class="small muted">IFCWALL</text>
+  <rect x="34" y="367" width="216" height="43" rx="10" fill="#222724" stroke="#3b433d"/><circle cx="51" cy="389" r="6" fill="#ad9ce9"/><text x="65" y="394" class="tiny strong">Services_Handover.ids</text>
+  <rect x="35" y="439" width="214" height="37" rx="17" fill="none" stroke="#657265" stroke-dasharray="5 4"/><text x="66" y="463" class="tiny muted">+ Add specification</text>
+  <text x="36" y="526" class="tiny muted">Files stay in your browser</text><text x="36" y="545" class="tiny muted">until downloaded.</text>
+  <circle cx="244" cy="275" r="20" fill="#baff16"/><text x="239" y="281" class="call">1</text>
+
+  <text x="299" y="55" class="small strong">Workspace</text>
+  <rect x="736" y="28" width="116" height="38" rx="19" fill="#222724" stroke="#3b433d"/><text x="763" y="52" class="tiny">Import IDS</text>
+  <rect x="863" y="28" width="110" height="38" rx="19" fill="#222724" stroke="#3b433d"/><text x="882" y="52" class="tiny">Model setup</text>
+  <rect x="984" y="28" width="71" height="38" rx="19" fill="#222724" stroke="#3b433d"/><text x="1001" y="52" class="tiny">More</text>
+  <rect x="1065" y="28" width="114" height="38" rx="19" fill="#baff16"/><text x="1079" y="52" class="tiny call">Download IDS</text>
+  <circle cx="1164" cy="85" r="20" fill="#baff16"/><text x="1159" y="91" class="call">4</text>
+
+  <rect x="292" y="90" width="889" height="79" rx="15" fill="#171a18" stroke="#3b433d"/><rect x="292" y="90" width="5" height="79" rx="2" fill="#5cc9b7"/>
+  <text x="314" y="117" class="label muted">CURRENT IDS</text><text x="314" y="147" font-size="21" font-weight="800">Architecture_Handover.ids</text>
+  <text x="837" y="141" class="tiny muted">2 specifications  ·  4 requirements</text>
+  <rect x="292" y="187" width="889" height="407" rx="17" fill="#171a18" stroke="#3b433d"/>
+  <text x="315" y="214" class="label lime">SELECTED SPECIFICATION</text><text x="315" y="247" font-size="29" font-weight="800">IFCDOOR</text><text x="315" y="270" class="tiny muted">Fire door handover information · IFC4</text>
+  <rect x="315" y="290" width="260" height="60" rx="9" fill="#222724" stroke="#3b433d"/><text x="329" y="311" class="label muted">APPLICABLE IFC ENTITY</text><text x="329" y="337" class="small strong">IFCDOOR</text>
+  <rect x="587" y="290" width="164" height="60" rx="9" fill="#222724" stroke="#3b433d"/><text x="601" y="311" class="label muted">IFC VERSION</text><text x="601" y="337" class="small strong">IFC4</text>
+  <rect x="763" y="290" width="182" height="60" rx="9" fill="#222724" stroke="#3b433d"/><text x="777" y="311" class="label muted">MIN. OCCURRENCES</text><text x="777" y="337" class="small strong">1</text>
+  <rect x="957" y="290" width="199" height="60" rx="9" fill="#222724" stroke="#3b433d"/><text x="971" y="311" class="label muted">MAX. OCCURRENCES</text><text x="971" y="337" class="small strong">unbounded</text>
+  <circle cx="1154" cy="294" r="20" fill="#baff16"/><text x="1149" y="300" class="call">2</text>
+  <line x1="292" y1="370" x2="1181" y2="370" stroke="#3b433d"/>
+  <text x="315" y="404" font-size="20" font-weight="800">Requirements</text><text x="315" y="426" class="tiny muted">Applies to IFCDOOR · IFC4</text>
+  <rect x="1014" y="385" width="143" height="37" rx="18" fill="#baff16"/><text x="1030" y="408" class="tiny call">+ Add requirement</text>
+  <rect x="315" y="448" width="842" height="35" fill="#222923"/><text x="330" y="471" class="label muted">FACET</text><text x="505" y="471" class="label muted">INFORMATION</text><text x="773" y="471" class="label muted">SAMPLE</text><text x="930" y="471" class="label muted">VALUE RULE</text>
+  <text x="330" y="511" class="tiny lime">ATTRIBUTE</text><text x="505" y="511" class="small strong">Name</text><text x="773" y="511" class="tiny">Main entrance door</text><text x="930" y="511" class="tiny">Present</text>
+  <line x1="315" y1="525" x2="1157" y2="525" stroke="#3b433d"/>
+  <text x="330" y="554" class="tiny lime">PROPERTY</text><text x="505" y="554" class="small strong">FireRating</text><text x="773" y="554" class="tiny">EI60</text><text x="930" y="554" class="tiny">EI30 / EI60 / EI90</text>
+  <circle cx="1154" cy="543" r="20" fill="#baff16"/><text x="1149" y="549" class="call">3</text>
+  <rect x="292" y="610" width="889" height="46" rx="12" fill="#171a18" stroke="#3b433d"/><text x="315" y="640" class="small strong">File details</text><text x="427" y="640" class="tiny muted">Title, purpose, milestone, author</text><text x="1147" y="640" class="small muted">▾</text>
+</svg>

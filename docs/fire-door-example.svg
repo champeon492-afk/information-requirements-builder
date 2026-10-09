@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="480" viewBox="0 0 1100 480" role="img" aria-labelledby="title desc">
+  <title id="title">Stage 8 fire door IDS example</title>
+  <desc id="desc">An IDS Builder specification for IFC4 IfcDoor requires Name and Pset_DoorCommon.FireRating. EI60 is an illustrative sample; EI30, EI60, and EI90 are the enforced allowed values. An external validator checks the resulting IDS against an IFC model.</desc>
+  <defs><style>text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#f6f8f5}.muted{fill:#b9c5ba}.lime{fill:#d5ff80}.small{font-size:15px}.tiny{font-size:13px}.strong{font-weight:800}</style></defs>
+  <rect width="1100" height="480" rx="25" fill="#0a0c0b"/>
+  <text x="32" y="49" font-size="25" font-weight="850">Real use case: Stage 8 fire door handover</text>
+  <text x="32" y="77" class="small muted">Write the information requirement, then check the IFC model with a validator.</text>
+
+  <rect x="32" y="108" width="348" height="314" rx="16" fill="#171a18" stroke="#56634e"/>
+  <text x="53" y="140" class="tiny lime strong">1 · AUTHOR IN IDS BUILDER</text>
+  <text x="53" y="177" font-size="23" class="strong">IFCDOOR</text><text x="200" y="177" class="small muted">IFC4</text>
+  <line x1="53" y1="193" x2="358" y2="193" stroke="#3b433d"/>
+  <text x="53" y="223" class="small strong">Required attribute</text><text x="53" y="247" class="small muted">Name must be present</text>
+  <text x="53" y="284" class="small strong">Required property</text><text x="53" y="308" class="small muted">Pset_DoorCommon.FireRating</text>
+  <rect x="53" y="333" width="305" height="64" rx="10" fill="#283321"/>
+  <text x="67" y="357" class="tiny lime strong">ENFORCED VALUE RULE</text>
+  <text x="67" y="381" class="small">EI30 · EI60 · EI90</text>
+
+  <path d="M393 259 H421" stroke="#baff16" stroke-width="3" fill="none"/><path d="m420 252 10 7-10 7" fill="#baff16"/>
+  <rect x="440" y="108" width="239" height="314" rx="16" fill="#171a18" stroke="#56634e"/>
+  <text x="461" y="140" class="tiny lime strong">2 · MODEL AUTHOR</text>
+  <text x="461" y="177" font-size="21" class="strong">IFC4 model</text>
+  <line x1="461" y1="193" x2="658" y2="193" stroke="#3b433d"/>
+  <text x="461" y="223" class="small">IfcDoor.Name</text><text x="461" y="247" class="small muted">Main entrance door</text>
+  <text x="461" y="288" class="small">FireRating</text><text x="461" y="315" font-size="29" class="lime strong">EI60</text>
+  <text x="461" y="371" class="tiny muted">Sample EI60 helps authors.</text>
+  <text x="461" y="393" class="tiny muted">The allowed list sets the rule.</text>
+
+  <path d="M692 259 H720" stroke="#baff16" stroke-width="3" fill="none"/><path d="m719 252 10 7-10 7" fill="#baff16"/>
+  <rect x="739" y="108" width="329" height="314" rx="16" fill="#171a18" stroke="#56634e"/>
+  <text x="760" y="140" class="tiny lime strong">3 · VALIDATE THE IFC</text>
+  <text x="760" y="177" font-size="22" class="strong">IDS validator</text>
+  <line x1="760" y1="193" x2="1047" y2="193" stroke="#3b433d"/>
+  <circle cx="773" cy="232" r="11" fill="#baff16"/><path d="m768 232 4 4 7-8" stroke="#0a0c0b" stroke-width="3" fill="none"/>
+  <text x="795" y="237" class="small">EI60 + Name → passes</text>
+  <circle cx="773" cy="289" r="11" fill="#ffaaa9"/><path d="m769 285 8 8 m0-8-8 8" stroke="#0a0c0b" stroke-width="3"/>
+  <text x="795" y="294" class="small">Missing rating → fails</text>
+  <circle cx="773" cy="346" r="11" fill="#ffaaa9"/><path d="m769 342 8 8 m0-8-8 8" stroke="#0a0c0b" stroke-width="3"/>
+  <text x="795" y="351" class="small">EI120 → fails this rule</text>
+</svg>
